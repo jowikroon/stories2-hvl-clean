@@ -1,6 +1,6 @@
 {
   "framework": "vite",
-  "buildCommand": "cd ../.. && npm run build:company",
+  "buildCommand": "cd ../.. && npm run build:personal",
   "outputDirectory": "dist",
   "redirects": [
     {

@@ -2,7 +2,8 @@
   "files": [],
   "references": [
     { "path": "apps/saas" },
-    { "path": "apps/company" },
+    { "path": "apps/personal" },
+    { "path": "apps/thought-canvas" },
     { "path": "packages/ui" }
   ]
 }

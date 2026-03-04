@@ -11,8 +11,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build-company:
-    name: Build company
+  build-personal:
+    name: Build personal
     runs-on: ubuntu-latest
     if: >-
       github.event_name == 'push' ||
@@ -25,7 +25,7 @@ jobs:
         with:
           filters: |
             relevant:
-              - 'apps/company/**'
+              - 'apps/personal/**'
               - 'packages/**'
               - 'package.json'
               - 'package-lock.json'
@@ -39,16 +39,16 @@ jobs:
       - run: npm ci
         if: steps.changes.outputs.relevant == 'true'
 
-      - run: npm run lint:company
+      - run: npm run lint:personal
         if: steps.changes.outputs.relevant == 'true'
 
-      - run: npm run typecheck --workspace=@hans/company
+      - run: npm run typecheck --workspace=@hans/personal
         if: steps.changes.outputs.relevant == 'true'
 
-      - run: npm run test:company
+      - run: npm run test:personal
         if: steps.changes.outputs.relevant == 'true'
 
-      - run: npm run build:company
+      - run: npm run build:personal
         if: steps.changes.outputs.relevant == 'true'
 
   build-saas:
@@ -91,10 +91,50 @@ jobs:
       - run: npm run build:saas
         if: steps.changes.outputs.relevant == 'true'
 
+  build-thought-canvas:
+    name: Build thought-canvas
+    runs-on: ubuntu-latest
+    if: >-
+      github.event_name == 'push' ||
+      github.event.pull_request.draft == false
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dorny/paths-filter@v3
+        id: changes
+        with:
+          filters: |
+            relevant:
+              - 'apps/thought-canvas/**'
+              - 'packages/**'
+              - 'package.json'
+              - 'package-lock.json'
+
+      - uses: actions/setup-node@v4
+        if: steps.changes.outputs.relevant == 'true'
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+        if: steps.changes.outputs.relevant == 'true'
+
+      - run: npm run lint:thought-canvas
+        if: steps.changes.outputs.relevant == 'true'
+
+      - run: npm run typecheck --workspace=@hans/thought-canvas
+        if: steps.changes.outputs.relevant == 'true'
+
+      - run: npm run test:thought-canvas
+        if: steps.changes.outputs.relevant == 'true'
+
+      - run: npm run build:thought-canvas
+        if: steps.changes.outputs.relevant == 'true'
+
   post-commit-check:
     name: Post-commit health (empire-health)
     runs-on: ubuntu-latest
-    needs: [build-company, build-saas]
+    needs: [build-personal, build-saas, build-thought-canvas]
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     steps:
       - name: Call empire-health agent
