@@ -1,0 +1,52 @@
+# Secrets
+.env
+.env.local
+.env.*.local
+config/all-credentials.export.env
+
+# Vault adapter data (encrypted secrets store)
+vault-adapter/data/
+*.vault
+
+# Local Netlify link (if ever used)
+.netlify
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+dist-saas
+*.local
+
+# Cloned repos (use apps/ structure instead)
+smart-content-orchestra/
+
+# Build artifacts per app
+apps/*/dist
+apps/*/dist-ssr
+packages/*/dist
+
+# Env files in app dirs
+apps/*/.env
+apps/*/.env.local
+apps/*/.env.*.local
+
+# Editor directories and files
+.cursor
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

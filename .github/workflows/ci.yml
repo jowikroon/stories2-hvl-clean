@@ -1,0 +1,116 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-company:
+    name: Build company
+    runs-on: ubuntu-latest
+    if: >-
+      github.event_name == 'push' ||
+      github.event.pull_request.draft == false
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dorny/paths-filter@v3
+        id: changes
+        with:
+          filters: |
+            relevant:
+              - 'apps/company/**'
+              - 'packages/**'
+              - 'package.json'
+              - 'package-lock.json'
+
+      - uses: actions/setup-node@v4
+        if: steps.changes.outputs.relevant == 'true'
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+        if: steps.changes.outputs.relevant == 'true'
+
+      - run: npm run lint:company
+        if: steps.changes.outputs.relevant == 'true'
+
+      - run: npm run typecheck --workspace=@hans/company
+        if: steps.changes.outputs.relevant == 'true'
+
+      - run: npm run test:company
+        if: steps.changes.outputs.relevant == 'true'
+
+      - run: npm run build:company
+        if: steps.changes.outputs.relevant == 'true'
+
+  build-saas:
+    name: Build saas
+    runs-on: ubuntu-latest
+    if: >-
+      github.event_name == 'push' ||
+      github.event.pull_request.draft == false
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dorny/paths-filter@v3
+        id: changes
+        with:
+          filters: |
+            relevant:
+              - 'apps/saas/**'
+              - 'packages/**'
+              - 'package.json'
+              - 'package-lock.json'
+
+      - uses: actions/setup-node@v4
+        if: steps.changes.outputs.relevant == 'true'
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+        if: steps.changes.outputs.relevant == 'true'
+
+      - run: npm run lint:saas
+        if: steps.changes.outputs.relevant == 'true'
+
+      - run: npm run typecheck --workspace=@hans/saas
+        if: steps.changes.outputs.relevant == 'true'
+
+      - run: npm run test:saas
+        if: steps.changes.outputs.relevant == 'true'
+
+      - run: npm run build:saas
+        if: steps.changes.outputs.relevant == 'true'
+
+  post-commit-check:
+    name: Post-commit health (empire-health)
+    runs-on: ubuntu-latest
+    needs: [build-company, build-saas]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    steps:
+      - name: Call empire-health agent
+        run: |
+          res=$(curl -s -w "\n%{http_code}" \
+            -X POST \
+            -H "Content-Type: application/json" \
+            -H "Authorization: Bearer $SUPABASE_SERVICE_ROLE_KEY" \
+            "$SUPABASE_URL/functions/v1/empire-health")
+          code=$(echo "$res" | tail -n1)
+          body=$(echo "$res" | sed '$d')
+          echo "empire-health response ($code): $body"
+          if [ "$code" -lt 200 ] || [ "$code" -ge 300 ]; then
+            echo "Post-commit health check failed (non-2xx)"
+            exit 1
+          fi
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}

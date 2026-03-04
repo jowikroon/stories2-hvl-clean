@@ -1,0 +1,31 @@
+{
+  "name": "hans-crafted-stories",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev:saas": "npm run dev --workspace=@hans/saas",
+    "dev:company": "npm run dev --workspace=@hans/company",
+    "build:saas": "npm run build --workspace=@hans/saas",
+    "build:company": "npm run build --workspace=@hans/company",
+    "preview:saas": "npm run preview --workspace=@hans/saas",
+    "preview:company": "npm run preview --workspace=@hans/company",
+    "lint:saas": "npm run lint --workspace=@hans/saas",
+    "lint:company": "npm run lint --workspace=@hans/company",
+    "test:saas": "npm run test --workspace=@hans/saas",
+    "test:company": "npm run test --workspace=@hans/company",
+    "dev": "echo \"Use dev:saas or dev:company\"",
+    "build": "npm run build --workspace=@hans/company && npm run build --workspace=@hans/saas",
+    "lint": "npm run lint --workspace=@hans/company && npm run lint --workspace=@hans/saas",
+    "test": "npm run test --workspace=@hans/company && npm run test --workspace=@hans/saas",
+    "typecheck": "npm run typecheck --workspace=@hans/company && npm run typecheck --workspace=@hans/saas",
+    "create-saas-user": "dotenv -e apps/saas/.env -- node scripts/create-saas-user.cjs"
+  },
+  "overrides": {
+    "esbuild": "^0.25.0"
+  }
+}

@@ -1,0 +1,46 @@
+project_id = "oejeojzaakfhculcoqdh"
+
+[functions.site-audit]
+verify_jwt = false
+
+[functions.trigger-webhook]
+verify_jwt = false
+
+[functions.keyword-research]
+verify_jwt = false
+
+[functions.portal-api]
+verify_jwt = false
+
+[functions.n8n-agent]
+verify_jwt = false
+
+[functions.empire-health]
+verify_jwt = false
+
+[functions.hansai-chat]
+verify_jwt = false
+
+[functions.intent-router]
+verify_jwt = false
+
+[functions.n8n-create-workflow]
+verify_jwt = false
+
+[functions.llm-resume]
+verify_jwt = false
+
+[functions.monday-webhook]
+verify_jwt = false
+
+[functions.ai-content-suggest]
+verify_jwt = false
+
+[functions.google-agent]
+verify_jwt = false
+
+[functions.google-oauth-start]
+verify_jwt = false
+
+[functions.google-oauth-callback]
+verify_jwt = false

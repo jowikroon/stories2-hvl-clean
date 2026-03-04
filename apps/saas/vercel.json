@@ -1,0 +1,13 @@
+{
+  "framework": "vite",
+  "buildCommand": "cd ../.. && npm run build:saas",
+  "outputDirectory": "dist",
+  "redirects": [
+    {
+      "source": "/:path+/",
+      "destination": "/:path+",
+      "permanent": true
+    }
+  ],
+  "trailingSlash": false
+}

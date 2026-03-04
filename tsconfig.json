@@ -1,0 +1,8 @@
+{
+  "files": [],
+  "references": [
+    { "path": "apps/saas" },
+    { "path": "apps/company" },
+    { "path": "packages/ui" }
+  ]
+}
