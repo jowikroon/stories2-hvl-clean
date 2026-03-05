@@ -1,0 +1,46 @@
+name: Deploy marketplacegrowth.nl
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "apps/saas/**"
+      - "packages/ui/**"
+      - "packages/config/**"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps
+
+      - name: Build SaaS app
+        run: npm run build:saas
+        env:
+          VITE_SUPABASE_URL: ${{ secrets.SAAS_SUPABASE_URL }}
+          VITE_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.SAAS_SUPABASE_PUBLISHABLE_KEY }}
+          VITE_SUPABASE_PROJECT_ID: ${{ secrets.SAAS_SUPABASE_PROJECT_ID }}
+
+      - name: Add CNAME
+        run: echo "marketplacegrowth.nl" > apps/saas/dist/CNAME
+
+      - name: Add 404 SPA redirect
+        run: cp apps/saas/dist/index.html apps/saas/dist/404.html
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          personal_token: ${{ secrets.DEPLOY_TOKEN }}
+          external_repository: jowikroon/marketplacegrowth-nl
+          publish_branch: main
+          publish_dir: apps/saas/dist
+          force_orphan: true
+          commit_message: "deploy: ${{ github.sha }}"
