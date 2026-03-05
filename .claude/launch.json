@@ -2,16 +2,40 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "vite-dev",
-      "runtimeExecutable": "node",
-      "runtimeArgs": ["node_modules/.bin/vite"],
+      "name": "personal-dev",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev:personal"],
       "port": 8080
     },
     {
-      "name": "vite-preview",
-      "runtimeExecutable": "node",
-      "runtimeArgs": ["node_modules/.bin/vite", "preview"],
+      "name": "saas-dev",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev:saas"],
+      "port": 8081
+    },
+    {
+      "name": "thought-canvas-dev",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev:thought-canvas"],
+      "port": 8082
+    },
+    {
+      "name": "personal-preview",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "preview:personal"],
       "port": 4173
+    },
+    {
+      "name": "saas-preview",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "preview:saas"],
+      "port": 4174
+    },
+    {
+      "name": "thought-canvas-preview",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "preview:thought-canvas"],
+      "port": 4175
     }
   ]
 }

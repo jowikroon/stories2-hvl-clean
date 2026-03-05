@@ -1,7 +1,42 @@
 {
   "permissions": {
     "allow": [
-      "mcp__Claude_Preview__preview_start"
+      "mcp__Claude_Preview__preview_start",
+
+      "Bash(git status)",
+      "Bash(git branch *)",
+      "Bash(git log *)",
+      "Bash(git diff *)",
+      "Bash(git push *)",
+      "Bash(git pull)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+
+      "Bash(ssh *)",
+      "Bash(ssh-add *)",
+      "Bash(ssh-keygen *)",
+      "Bash(fuser *)",
+      "Bash(ss *)",
+
+      "Bash(docker *)",
+      "Bash(curl *)",
+      "Bash(cat ~/.ssh/config)",
+
+      "Bash(npm install)",
+      "Bash(npm run *)",
+      "Bash(node *)"
     ]
+  },
+  "mcpServers": {
+    "workflow-orchestrator": {
+      "command": "node",
+      "args": [".claude/mcp/workflow-orchestrator/index.js"],
+      "env": {}
+    },
+    "health-guardian": {
+      "command": "node",
+      "args": [".claude/mcp/health-guardian/index.js"],
+      "env": {}
+    }
   }
 }
