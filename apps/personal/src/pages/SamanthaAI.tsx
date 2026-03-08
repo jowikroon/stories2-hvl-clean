@@ -561,6 +561,7 @@ export default function SamanthaAI() {
       {/* ── CONVERSATION STATE ── */}
       {hasMessages && (
         <>
+          {/* Header bar */}
           <div className="relative z-10 mx-auto w-full max-w-2xl px-6 pt-20">
             <div className="flex items-center justify-between py-2">
               <div className="flex items-center gap-3">
@@ -576,9 +577,8 @@ export default function SamanthaAI() {
             </div>
           </div>
 
-          <div className="relative z-10 mx-auto w-full max-w-xl px-6 py-3 space-y-2"><ModelPicker /><InputBar /></div>
-
-          <div className="relative z-10 flex-1 overflow-y-auto">
+          {/* Chat history — takes all available space ABOVE the input */}
+          <div className="relative z-10 flex-1 overflow-y-auto min-h-0">
             <div className="mx-auto max-w-2xl px-6 py-4 space-y-3">
               {messages.map(msg => {
                 // Tool status cards (2.5)
@@ -638,6 +638,11 @@ export default function SamanthaAI() {
               <div ref={bottomRef} />
             </div>
           </div>
+
+          {/* Input bar — pinned to bottom with frosted glass */}
+          <div className="relative z-10 shrink-0 bg-white/[0.06] backdrop-blur-xl border-t border-white/10">
+            <div className="samantha-input-bar mx-auto max-w-xl px-5 py-3 sm:py-4 space-y-2"><ModelPicker /><InputBar /></div>
+          </div>
         </>
       )}
 
@@ -645,6 +650,9 @@ export default function SamanthaAI() {
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&display=swap');
         @keyframes samantha-pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.08); } }
         @keyframes samantha-wave { 0% { transform: translate(-50%, -50%) scale(0.4); opacity: 1; } 100% { transform: translate(-50%, -50%) scale(1); opacity: 0; } }
+        @supports (padding-bottom: env(safe-area-inset-bottom)) {
+          .samantha-input-bar { padding-bottom: calc(0.75rem + env(safe-area-inset-bottom)); }
+        }
       `}</style>
     </div>
   );
