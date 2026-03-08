@@ -1,12 +1,12 @@
 import { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Navigate } from "react-router-dom";
+import { Navigate, Link } from "react-router-dom";
 import {
   Activity, Shield, Globe, Brain, Cpu, Radio, Database, HeartPulse,
   RefreshCw, Server, Zap, Layers, CheckCircle2,
   AlertTriangle, XCircle, ChevronDown, ChevronRight,
   Network, Wifi, WifiOff, ExternalLink,
-  BarChart3, ListChecks, Loader2, Check,
+  BarChart3, ListChecks, Loader2, Check, Sparkles, Crown,
 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { useAdmin } from "@/hooks/useAdmin";
@@ -311,7 +311,13 @@ export default function GodStructure() {
             <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-emerald-500/20 bg-emerald-500/10"><Network size={20} className="text-emerald-400" /></div>
             <div><h1 className="text-lg font-bold tracking-tight text-zinc-100 font-mono">God Structure</h1><p className="text-[11px] text-zinc-500">AI Empire Architecture · v2.0</p></div>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
+            <Link to="/empire" className="inline-flex items-center gap-1.5 rounded-md border border-zinc-800 px-2.5 py-1.5 text-[10px] font-medium text-zinc-500 transition-all hover:border-emerald-500/30 hover:text-emerald-400">
+              <Crown size={11} /> Empire
+            </Link>
+            <Link to="/samantha" className="inline-flex items-center gap-1.5 rounded-md border border-rose-500/20 px-2.5 py-1.5 text-[10px] font-medium text-rose-400/60 transition-all hover:border-rose-500/30 hover:text-rose-400">
+              <Sparkles size={11} /> Samantha
+            </Link>
             <div className={cn("flex items-center gap-2 rounded-full border px-3 py-1", health === "healthy" ? "border-emerald-500/30 bg-emerald-500/10" : health === "critical" ? "border-red-500/30 bg-red-500/10" : health === "degraded" ? "border-amber-500/30 bg-amber-500/10" : "border-zinc-700")}>
               {health === "checking" ? <span className="h-2 w-2 animate-pulse rounded-full bg-zinc-500" /> : health === "healthy" ? <CheckCircle2 size={12} className="text-emerald-400" /> : health === "critical" ? <XCircle size={12} className="text-red-400" /> : <AlertTriangle size={12} className="text-amber-400" />}
               <span className={cn("text-[11px] font-medium", health === "healthy" ? "text-emerald-400" : health === "critical" ? "text-red-400" : health === "degraded" ? "text-amber-400" : "text-zinc-500")}>{health === "checking" ? "Checking…" : health === "healthy" ? "All Systems Go" : health === "critical" ? "Critical" : "Degraded"}</span>

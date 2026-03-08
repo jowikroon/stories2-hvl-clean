@@ -1,9 +1,9 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Navigate } from "react-router-dom";
+import { Navigate, Link } from "react-router-dom";
 import {
   Send, Mic, MicOff, Loader2, ArrowRight, Volume2, VolumeX,
-  ChevronDown, Bot, Cpu, Globe, Brain, Wrench, Zap, Server,
+  ChevronDown, Bot, Cpu, Globe, Brain, Wrench, Zap, Server, Terminal,
 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
@@ -272,6 +272,9 @@ export default function SamanthaAI() {
         <div className="flex items-center justify-between py-3">
           <p className="text-[13px] font-light tracking-[3px] text-white/60 uppercase">Samantha AI</p>
           <div className="flex items-center gap-2">
+            <Link to="/hansai" className="flex h-7 items-center gap-1.5 rounded-full bg-white/10 px-2.5 text-[10px] text-white/40 hover:text-white/70 transition-all" title="Open terminal">
+              <Terminal size={10} /> Terminal
+            </Link>
             <button onClick={toggleVoice} className={cn("flex h-7 w-7 items-center justify-center rounded-full transition-all", voiceOn ? "bg-white/20 text-white" : "bg-white/10 text-white/40 hover:text-white/70")} title={voiceOn ? "Mute" : "Voice"}>
               {voiceOn ? <Volume2 size={12} /> : <VolumeX size={12} />}
             </button>

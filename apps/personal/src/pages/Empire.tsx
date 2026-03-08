@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Terminal, Download, Crown } from "lucide-react";
+import { Terminal, Download, Crown, Network, Sparkles } from "lucide-react";
 import { useAdmin } from "@/hooks/useAdmin";
 import { useAuth } from "@/hooks/useAuth";
-import { Navigate } from "react-router-dom";
+import { Navigate, Link } from "react-router-dom";
 import EmpireStatusGrid from "@/components/empire/EmpireStatusGrid";
 import EmpireQuickActions from "@/components/empire/EmpireQuickActions";
 import EmpireAuditTrail from "@/components/empire/EmpireAuditTrail";
@@ -68,6 +68,20 @@ const Empire = () => {
             </div>
           </div>
           <div className="flex items-center gap-2">
+            <Link
+              to="/god-structure"
+              className="gap-2 inline-flex items-center rounded-md border border-emerald-500/20 bg-emerald-500/5 px-3 py-1.5 text-xs font-medium text-emerald-400/70 transition-all hover:bg-emerald-500/10 hover:text-emerald-300"
+            >
+              <Network size={13} />
+              Dashboard
+            </Link>
+            <Link
+              to="/samantha"
+              className="gap-2 inline-flex items-center rounded-md border border-rose-500/20 bg-rose-500/5 px-3 py-1.5 text-xs font-medium text-rose-400/70 transition-all hover:bg-rose-500/10 hover:text-rose-300"
+            >
+              <Sparkles size={13} />
+              Samantha
+            </Link>
             <Button
               onClick={() => setClaudeOpen(true)}
               className="gap-2 bg-emerald-600 text-white hover:bg-emerald-500"

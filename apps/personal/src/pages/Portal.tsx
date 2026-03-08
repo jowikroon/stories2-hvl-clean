@@ -1,19 +1,16 @@
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { useAuth } from "@/hooks/useAuth";
 import { useAdmin } from "@/hooks/useAdmin";
-import { LogOut, Wrench, FileText, Activity, ShieldAlert, Users, Loader2, LayoutDashboard, Command, Search, Zap, BookOpen } from "lucide-react";
+import { LogOut, Wrench, FileText, Activity, ShieldAlert, Users, Loader2, LayoutDashboard, Search, Sparkles } from "lucide-react";
 import { Link } from "react-router-dom";
 import PortalToolsTab from "@/components/portal/PortalToolsTab";
 import PortalContentTab from "@/components/portal/PortalContentTab";
 import PortalStatusTab from "@/components/portal/PortalStatusTab";
 import PortalUsersManager from "@/components/portal/PortalUsersManager";
 import PortalPagesTab from "@/components/portal/PortalPagesTab";
-import UnifiedChatPanel from "@/components/portal/UnifiedChatPanel";
 import PortalFloatingDock from "@/components/portal/PortalFloatingDock";
 import PortalCommandPalette from "@/components/portal/PortalCommandPalette";
-import EmpireOverlay from "@/components/overlays/EmpireOverlay";
-import N8nAgentModal from "@/components/portal/N8nAgentModal";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
@@ -46,11 +43,8 @@ const Portal = () => {
   const { user, loading, signInWithGoogle, signInWithEmail, signOut } = useAuth();
   const { isAdmin, loading: adminLoading } = useAdmin();
   const [activeTab, setActiveTab] = useState<Tab>("tools");
-  const [commandCenterOpen, setCommandCenterOpen] = useState(false);
   const [subFilter, setSubFilter] = useState<string>("All");
   const [commandOpen, setCommandOpen] = useState(false);
-  const [empireOpen, setEmpireOpen] = useState(false);
-  const [n8nOpen, setN8nOpen] = useState(false);
   const { toast } = useToast();
   const { isVisible } = usePageElements("portal");
 
@@ -75,9 +69,7 @@ const Portal = () => {
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
-      if (!(e.metaKey || e.ctrlKey)) return;
-      if (e.key === "e" || e.key === "j") { e.preventDefault(); setCommandCenterOpen((v) => !v); }
-      else if (e.key === "k") { e.preventDefault(); setCommandOpen((v) => !v); }
+      if ((e.metaKey || e.ctrlKey) && e.key === "k") { e.preventDefault(); setCommandOpen((v) => !v); }
     };
     document.addEventListener("keydown", handler);
     return () => document.removeEventListener("keydown", handler);
@@ -182,60 +174,30 @@ const Portal = () => {
               Welcome back{user.user_metadata?.full_name ? `, ${user.user_metadata.full_name.split(" ")[0]}` : ""}
             </h1>
             <p className="text-sm leading-relaxed text-muted-foreground/80 sm:text-base sm:leading-normal sm:text-muted-foreground">
-              Your tools board — manage tools, content one place.
+              Manage tools, content, and pages.
             </p>
           </div>
-          <div className="mt-1 flex flex-wrap items-center gap-3 sm:mt-0 sm:gap-2">
-            {isVisible("empire_ai_button") && (
-              <button
-                onClick={() => setEmpireOpen((v) => !v)}
-                className={`inline-flex min-h-[48px] items-center gap-2 rounded-lg px-4 py-2.5 text-xs font-medium transition-all active:scale-[0.97] sm:min-h-0 sm:px-3 sm:py-2 ${
-                  empireOpen
-                    ? "border-2 border-violet-500 bg-violet-500/10 text-violet-500 shadow-[0_0_16px_hsl(263_70%_50%/0.35)]"
-                    : "border border-border text-muted-foreground hover:border-violet-500/40 hover:text-foreground hover:shadow-[0_0_12px_hsl(263_70%_50%/0.15)]"
-                }`}
-              >
-                <Zap size={14} />
-                <span className="hidden sm:inline">Empire AI</span>
-              </button>
-            )}
-            {isVisible("n8n_agent_button") && (
-              <button
-                onClick={() => setN8nOpen((v) => !v)}
-                className={`inline-flex min-h-[48px] items-center gap-2 rounded-lg px-4 py-2.5 text-xs font-medium transition-all active:scale-[0.97] sm:min-h-0 sm:px-3 sm:py-2 ${
-                  n8nOpen
-                    ? "border-2 border-cyan-500 bg-cyan-500/10 text-cyan-500 shadow-[0_0_16px_hsl(188_95%_43%/0.35)]"
-                    : "border border-border text-muted-foreground hover:border-cyan-500/40 hover:text-foreground hover:shadow-[0_0_12px_hsl(188_95%_43%/0.15)]"
-                }`}
-              >
-                <Wrench size={14} />
-                <span className="hidden sm:inline">n8n Agent</span>
-              </button>
-            )}
-            {isVisible("command_center_button") && (
-              <button
-                onClick={() => setCommandCenterOpen((v) => !v)}
-                className={`inline-flex min-h-[48px] items-center gap-2 rounded-lg px-4 py-2.5 text-xs font-medium transition-all active:scale-[0.97] sm:min-h-0 sm:px-3 sm:py-2 ${
-                  commandCenterOpen
-                    ? "border-2 border-orange-500 bg-orange-500/10 text-orange-500 shadow-[0_0_16px_hsl(25_95%_53%/0.35)]"
-                    : "border border-border text-muted-foreground hover:border-orange-500/40 hover:text-foreground hover:shadow-[0_0_12px_hsl(25_95%_53%/0.15)]"
-                }`}
-              >
-                <Command size={14} />
-                <span className="hidden sm:inline">Command Center</span>
-              </button>
-            )}
+          <div className="mt-1 flex flex-wrap items-center gap-2 sm:mt-0">
             <Link
-              to="/wiki"
-              className="inline-flex min-h-[48px] items-center gap-2 rounded-lg border border-border px-4 py-2.5 text-xs text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground active:scale-[0.97] sm:min-h-0 sm:px-3 sm:py-2"
-              title="AI Wiki"
+              to="/samantha"
+              className="inline-flex min-h-[48px] items-center gap-2 rounded-lg border border-rose-500/30 px-4 py-2.5 text-xs font-medium text-rose-400 transition-all hover:bg-rose-500/10 hover:text-rose-300 active:scale-[0.97] sm:min-h-0 sm:px-3 sm:py-2"
             >
-              <BookOpen size={14} />
-              <span className="hidden sm:inline">Wiki</span>
+              <Sparkles size={14} />
+              <span className="hidden sm:inline">Ask Samantha</span>
             </Link>
+            {isAdmin && (
+              <Link
+                to="/god-structure"
+                className="inline-flex min-h-[48px] items-center gap-2 rounded-lg border border-border px-4 py-2.5 text-xs text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground active:scale-[0.97] sm:min-h-0 sm:px-3 sm:py-2"
+              >
+                <Activity size={14} />
+                <span className="hidden sm:inline">Dashboard</span>
+              </Link>
+            )}
             <button
               onClick={() => setCommandOpen(true)}
               className="hidden items-center gap-2 rounded-lg border border-border px-3 py-2 text-xs text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground sm:inline-flex"
+              title="Search (⌘K)"
             >
               <Search size={13} />
             </button>
@@ -247,39 +209,6 @@ const Portal = () => {
             </button>
           </div>
         </div>
-
-        {/* Unified Command Center Panel */}
-        {isVisible("command_center_button") && (
-          <AnimatePresence>
-            {commandCenterOpen && (
-              <motion.div
-                key="command-center"
-                initial={{ height: 0, opacity: 0 }}
-                animate={{ height: "50vh", opacity: 1 }}
-                exit={{ height: 0, opacity: 0 }}
-                transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                className="mb-4 overflow-hidden rounded-2xl border-2 border-orange-500 bg-card shadow-lg flex flex-col"
-              >
-                <div className="flex shrink-0 items-center justify-between border-b border-orange-500/20 px-3 py-2 bg-card/80">
-                  <span className="text-[11px] font-medium text-foreground">Command Center</span>
-                  {isAdmin ? (
-                    <Link
-                      to="/hansai"
-                      className="rounded-md px-2.5 py-1 text-[10px] font-medium text-orange-400 hover:bg-orange-500/10 hover:text-orange-300 transition-colors"
-                    >
-                      Open full Command Center (terminal + filters) →
-                    </Link>
-                  ) : (
-                    <span className="text-[10px] text-muted-foreground">Log in as admin to open the full terminal.</span>
-                  )}
-                </div>
-                <div className="flex-1 min-h-0">
-                  <UnifiedChatPanel />
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        )}
 
         {/* Tab Navigation */}
         <div className="mb-2 flex gap-1 overflow-x-auto rounded-2xl border border-border bg-secondary/50 p-1 pb-2 sm:overflow-visible">
@@ -337,9 +266,7 @@ const Portal = () => {
       {isVisible("terminal_button") && (
         <PortalFloatingDock activeTab={activeTab} onTabChange={setActiveTab} onCommandOpen={() => setCommandOpen(true)} />
       )}
-      <PortalCommandPalette open={commandOpen} onClose={() => setCommandOpen(false)} onTabChange={setActiveTab} onEmpireOpen={() => setCommandCenterOpen((v) => !v)} onN8nOpen={() => setCommandCenterOpen((v) => !v)} onSignOut={signOut} />
-      <EmpireOverlay open={empireOpen} onClose={() => setEmpireOpen(false)} />
-      <N8nAgentModal open={n8nOpen} onClose={() => setN8nOpen(false)} />
+      <PortalCommandPalette open={commandOpen} onClose={() => setCommandOpen(false)} onTabChange={setActiveTab} onEmpireOpen={() => {}} onN8nOpen={() => {}} onSignOut={signOut} />
     </section>
   );
 };
