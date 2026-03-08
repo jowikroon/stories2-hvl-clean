@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, LogIn, Search, Command, Sun, Moon, LogOut, Bot, BookOpen, LayoutDashboard, ChevronDown, Shield } from "lucide-react";
+import { Menu, X, LogIn, Search, Command, Sun, Moon, LogOut, Bot, BookOpen, LayoutDashboard, ChevronDown, Shield, Network } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { useAdmin } from "@/hooks/useAdmin";
 import { useLang } from "@/hooks/useLang";
@@ -32,6 +32,7 @@ const searchablePages = [
   { to: "/interim-ecommerce-manager", label: "Interim E-commerce Manager", keywords: ["interim", "manager", "freelance", "ecommerce", "lead"] },
   { to: "/portal", label: "Portal", keywords: ["portal", "dashboard", "login", "tools"] },
   { to: "/empire", label: "Empire", keywords: ["empire", "admin", "terminal", "system"] },
+  { to: "/god-structure", label: "God Structure", keywords: ["god", "structure", "infrastructure", "architecture", "layers", "dashboard", "agents"] },
   { to: "/hansai", label: "Hans AI", keywords: ["ai", "chat", "llm", "claude", "gemini", "gpt"] },
 ];
 
@@ -280,6 +281,11 @@ const Navbar = ({ variant = "default" }: NavbarProps) => {
                             {isAdmin && (
                               <Link to="/empire" onClick={() => setProfileOpen(false)} className={`flex items-center gap-3 px-4 py-2.5 text-sm transition-colors ${isDark ? "text-orange-400/70 hover:text-orange-300 hover:bg-orange-500/10" : "text-orange-600/70 hover:text-orange-600 hover:bg-orange-50"}`}>
                                 <Shield size={15} /> Empire
+                              </Link>
+                            )}
+                            {isAdmin && (
+                              <Link to="/god-structure" onClick={() => setProfileOpen(false)} className={`flex items-center gap-3 px-4 py-2.5 text-sm transition-colors ${isDark ? "text-purple-400/70 hover:text-purple-300 hover:bg-purple-500/10" : "text-purple-600/70 hover:text-purple-600 hover:bg-purple-50"}`}>
+                                <Network size={15} /> God Structure
                               </Link>
                             )}
                           </div>

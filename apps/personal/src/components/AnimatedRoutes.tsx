@@ -18,6 +18,7 @@ import AmazonNlSpecialist from "@/pages/AmazonNlSpecialist";
 import BolComConsultant from "@/pages/BolComConsultant";
 import InterimEcommerceManager from "@/pages/InterimEcommerceManager";
 import CaseStudyDetail from "@/pages/CaseStudyDetail";
+import GodStructure from "@/pages/GodStructure";
 
 const AnimatedRoutes = () => {
   const location = useLocation();
@@ -37,6 +38,7 @@ const AnimatedRoutes = () => {
         <Route path="/portal" element={<PageTransition><Portal /></PageTransition>} />
         <Route path="/wiki" element={<PageTransition><Wiki /></PageTransition>} />
         <Route path="/empire" element={<PageTransition><Empire /></PageTransition>} />
+        <Route path="/god-structure" element={<GodStructure />} />
         <Route path="/hansai" element={<HansAI />} />
         <Route path="/command" element={<CommandV3 />} />
         <Route path="/privacy" element={<PageTransition><Privacy /></PageTransition>} />
