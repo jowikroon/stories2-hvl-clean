@@ -19,6 +19,7 @@ import BolComConsultant from "@/pages/BolComConsultant";
 import InterimEcommerceManager from "@/pages/InterimEcommerceManager";
 import CaseStudyDetail from "@/pages/CaseStudyDetail";
 import GodStructure from "@/pages/GodStructure";
+import SamanthaAI from "@/pages/SamanthaAI";
 
 const AnimatedRoutes = () => {
   const location = useLocation();
@@ -39,6 +40,7 @@ const AnimatedRoutes = () => {
         <Route path="/wiki" element={<PageTransition><Wiki /></PageTransition>} />
         <Route path="/empire" element={<PageTransition><Empire /></PageTransition>} />
         <Route path="/god-structure" element={<GodStructure />} />
+        <Route path="/samantha" element={<SamanthaAI />} />
         <Route path="/hansai" element={<HansAI />} />
         <Route path="/command" element={<CommandV3 />} />
         <Route path="/privacy" element={<PageTransition><Privacy /></PageTransition>} />

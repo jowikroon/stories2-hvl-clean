@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, LogIn, Search, Command, Sun, Moon, LogOut, Bot, BookOpen, LayoutDashboard, ChevronDown, Shield, Network } from "lucide-react";
+import { Menu, X, LogIn, Search, Command, Sun, Moon, LogOut, Bot, BookOpen, LayoutDashboard, ChevronDown, Shield, Network, Sparkles } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { useAdmin } from "@/hooks/useAdmin";
 import { useLang } from "@/hooks/useLang";
@@ -23,6 +23,7 @@ const getLinks = (lang: Lang) => {
 };
 
 const searchablePages = [
+  { to: "/samantha", label: "Samantha AI", keywords: ["samantha", "ai", "companion", "chat", "voice", "assistant", "start"] },
   { to: "/", label: "Home", keywords: ["home", "start", "landing"] },
   { to: "/work", label: "Work", keywords: ["work", "cases", "projects", "portfolio"] },
   { to: "/writing", label: "Writing", keywords: ["blog", "writing", "articles", "posts"] },
@@ -269,6 +270,9 @@ const Navbar = ({ variant = "default" }: NavbarProps) => {
 
                           {/* Menu items */}
                           <div className="py-1">
+                            <Link to="/samantha" onClick={() => setProfileOpen(false)} className={`flex items-center gap-3 px-4 py-2.5 text-sm transition-colors ${isDark ? "text-rose-400/80 hover:text-rose-300 hover:bg-rose-500/10" : "text-rose-500/70 hover:text-rose-600 hover:bg-rose-50"}`}>
+                              <Sparkles size={15} /> Samantha AI
+                            </Link>
                             <Link to="/portal" onClick={() => setProfileOpen(false)} className={`flex items-center gap-3 px-4 py-2.5 text-sm transition-colors ${isDark ? "text-emerald-400/70 hover:text-emerald-300 hover:bg-emerald-500/10" : "text-muted-foreground hover:text-foreground hover:bg-accent"}`}>
                               <LayoutDashboard size={15} /> Portal
                             </Link>
