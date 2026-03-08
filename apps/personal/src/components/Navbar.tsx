@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, LogIn, Search, Command, Sun, Moon } from "lucide-react";
+import { Menu, X, LogIn, Search, Command, Sun, Moon, LogOut, Bot, BookOpen, LayoutDashboard, ChevronDown, Shield } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { useAdmin } from "@/hooks/useAdmin";
 import { useLang } from "@/hooks/useLang";
@@ -49,11 +49,12 @@ const Navbar = ({ variant = "default" }: NavbarProps) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedIndex, setSelectedIndex] = useState(0);
   const searchInputRef = useRef<HTMLInputElement>(null);
-  const { user } = useAuth();
+  const { user, signOut } = useAuth();
   const { isAdmin } = useAdmin();
   const t = translations[lang].nav;
   const allLinks = getLinks(lang);
   const links = user ? [...allLinks, { to: "/hansai", label: t.commandCenter }] : allLinks;
+  const [profileOpen, setProfileOpen] = useState(false);
 
   // Global theme state — default light; Portal forces dark via its own effect
   const [siteTheme, setSiteTheme] = useState<"light" | "dark">(() => {
@@ -226,31 +227,87 @@ const Navbar = ({ variant = "default" }: NavbarProps) => {
                 <LangSwitch />
               </div>
 
-              {/* Portal / Login — styled as outlined button (hidden on mobile) */}
-              <Link
-                to="/portal"
-                className={`hidden sm:inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-sm font-medium transition-all ${
-                  isActive("/portal")
-                    ? isDark
-                      ? "border-emerald-400 bg-emerald-500/10 text-emerald-300"
-                      : "border-primary bg-primary/10 text-primary"
-                    : isDark
+              {/* Portal / Login — dropdown when logged in */}
+              {user ? (
+                <div className="relative hidden sm:block">
+                  <button
+                    onClick={() => setProfileOpen(!profileOpen)}
+                    className={`inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-sm font-medium transition-all ${
+                      profileOpen
+                        ? isDark
+                          ? "border-emerald-400 bg-emerald-500/10 text-emerald-300"
+                          : "border-primary bg-primary/10 text-primary"
+                        : isDark
+                          ? "border-emerald-500/30 text-emerald-400/60 hover:border-emerald-400 hover:text-emerald-300"
+                          : "border-border text-muted-foreground hover:border-foreground hover:text-foreground"
+                    }`}
+                  >
+                    <img src={user.user_metadata?.avatar_url || ""} alt="" className="h-5 w-5 rounded-full" onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }} />
+                    <span className="max-w-[100px] truncate">{user.user_metadata?.full_name?.split(" ")[0] || t.portal}</span>
+                    <ChevronDown size={12} className={`transition-transform ${profileOpen ? "rotate-180" : ""}`} />
+                  </button>
+
+                  <AnimatePresence>
+                    {profileOpen && (
+                      <>
+                        <div className="fixed inset-0 z-40" onClick={() => setProfileOpen(false)} />
+                        <motion.div
+                          initial={{ opacity: 0, y: -4, scale: 0.95 }}
+                          animate={{ opacity: 1, y: 0, scale: 1 }}
+                          exit={{ opacity: 0, y: -4, scale: 0.95 }}
+                          transition={{ duration: 0.15 }}
+                          className={`absolute right-0 top-full mt-2 z-50 w-56 rounded-xl border shadow-xl overflow-hidden ${
+                            isDark ? "border-emerald-500/20 bg-[hsl(220,20%,8%)]" : "border-border bg-card"
+                          }`}
+                        >
+                          {/* User info header */}
+                          <div className={`px-4 py-3 border-b ${isDark ? "border-emerald-500/10" : "border-border"}`}>
+                            <p className={`text-sm font-medium truncate ${isDark ? "text-emerald-300" : "text-foreground"}`}>{user.user_metadata?.full_name || "User"}</p>
+                            <p className={`text-xs truncate ${isDark ? "text-emerald-400/40" : "text-muted-foreground"}`}>{user.email}</p>
+                          </div>
+
+                          {/* Menu items */}
+                          <div className="py-1">
+                            <Link to="/portal" onClick={() => setProfileOpen(false)} className={`flex items-center gap-3 px-4 py-2.5 text-sm transition-colors ${isDark ? "text-emerald-400/70 hover:text-emerald-300 hover:bg-emerald-500/10" : "text-muted-foreground hover:text-foreground hover:bg-accent"}`}>
+                              <LayoutDashboard size={15} /> Portal
+                            </Link>
+                            <Link to="/hansai" onClick={() => setProfileOpen(false)} className={`flex items-center gap-3 px-4 py-2.5 text-sm transition-colors ${isDark ? "text-emerald-400/70 hover:text-emerald-300 hover:bg-emerald-500/10" : "text-muted-foreground hover:text-foreground hover:bg-accent"}`}>
+                              <Bot size={15} /> Hans AI
+                            </Link>
+                            <Link to="/wiki" onClick={() => setProfileOpen(false)} className={`flex items-center gap-3 px-4 py-2.5 text-sm transition-colors ${isDark ? "text-emerald-400/70 hover:text-emerald-300 hover:bg-emerald-500/10" : "text-muted-foreground hover:text-foreground hover:bg-accent"}`}>
+                              <BookOpen size={15} /> Wiki
+                            </Link>
+                            {isAdmin && (
+                              <Link to="/empire" onClick={() => setProfileOpen(false)} className={`flex items-center gap-3 px-4 py-2.5 text-sm transition-colors ${isDark ? "text-orange-400/70 hover:text-orange-300 hover:bg-orange-500/10" : "text-orange-600/70 hover:text-orange-600 hover:bg-orange-50"}`}>
+                                <Shield size={15} /> Empire
+                              </Link>
+                            )}
+                          </div>
+
+                          {/* Sign out */}
+                          <div className={`border-t py-1 ${isDark ? "border-emerald-500/10" : "border-border"}`}>
+                            <button onClick={() => { signOut(); setProfileOpen(false); }} className={`flex w-full items-center gap-3 px-4 py-2.5 text-sm transition-colors ${isDark ? "text-red-400/70 hover:text-red-300 hover:bg-red-500/10" : "text-red-500/70 hover:text-red-600 hover:bg-red-50"}`}>
+                              <LogOut size={15} /> Sign out
+                            </button>
+                          </div>
+                        </motion.div>
+                      </>
+                    )}
+                  </AnimatePresence>
+                </div>
+              ) : (
+                <Link
+                  to="/portal"
+                  className={`hidden sm:inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-sm font-medium transition-all ${
+                    isDark
                       ? "border-emerald-500/30 text-emerald-400/60 hover:border-emerald-400 hover:text-emerald-300"
                       : "border-border text-muted-foreground hover:border-foreground hover:text-foreground"
-                }`}
-              >
-                {user ? (
-                  <>
-                    <img src={user.user_metadata?.avatar_url || ""} alt="" className="h-4 w-4 rounded-full" onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }} />
-                    <span>{t.portal}</span>
-                  </>
-                ) : (
-                  <>
-                    <LogIn size={14} />
-                    <span>{t.login}</span>
-                  </>
-                )}
-              </Link>
+                  }`}
+                >
+                  <LogIn size={14} />
+                  <span>{t.login}</span>
+                </Link>
+              )}
 
               {/* Mobile hamburger */}
               <button onClick={() => setMobileOpen(!mobileOpen)} className={`md:hidden rounded-lg p-1.5 ${isDark ? "text-emerald-300" : "text-foreground"}`} aria-label="Toggle menu">
