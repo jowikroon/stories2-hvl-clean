@@ -11,6 +11,7 @@ import { useSEO } from "@/hooks/useSEO";
 import { useLang } from "@/hooks/useLang";
 import { translations } from "@/data/translations";
 import { usePageContent } from "@/hooks/usePageContent";
+import { blogPosts as staticBlogPosts } from "@/data/content";
 
 type Filter = string;
 type TagFilter = string | null;
@@ -74,7 +75,32 @@ const Writing = () => {
   });
 
   useEffect(() => {
-    getBlogPosts(true).then((p) => { setBlogPosts(p); setLoading(false); });
+    getBlogPosts(true)
+      .then((p) => {
+        setBlogPosts(p);
+        setLoading(false);
+      })
+      .catch(() => {
+        const fallback: BlogPostRow[] = staticBlogPosts.map((p) => ({
+          id: p.id,
+          title: p.title,
+          excerpt: p.excerpt,
+          content: "",
+          title_nl: p.titleNl ?? "",
+          excerpt_nl: p.excerptNl ?? "",
+          content_nl: "",
+          category: p.category,
+          tags: p.tags,
+          slug: p.slug,
+          read_time: p.readTime,
+          published: true,
+          image_url: p.imageUrl ?? "",
+          created_at: `${p.date}T12:00:00.000Z`,
+          updated_at: `${p.date}T12:00:00.000Z`,
+        }));
+        setBlogPosts(fallback);
+        setLoading(false);
+      });
   }, []);
 
   const mappedPosts = useMemo(() =>

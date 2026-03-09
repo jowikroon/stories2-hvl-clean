@@ -79,7 +79,6 @@ Use Edit tool with targeted additions only. Never delete existing sections.
 |------|-------------|
 | `./CLAUDE.md` | A (90+) |
 | `./apps/personal/CLAUDE.md` | B+ (75+) |
-| `./apps/saas/CLAUDE.md` | B+ (75+) |
 | `./apps/personal/public/empire/CLAUDE.md` | A (90+) |
 
 ## Supabase Logging

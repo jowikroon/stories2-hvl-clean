@@ -11,9 +11,6 @@ npm install
 # Run personal app (port 8080)
 npm run dev --workspace=apps/personal
 
-# Run saas app
-npm run dev --workspace=apps/saas
-
 # Start full local AI stack (n8n + Ollama + Qdrant + AnythingLLM)
 docker compose up -d
 
@@ -26,12 +23,9 @@ docker compose ps
 ```
 hans-crafted-stories/
 ├── apps/
-│   ├── personal/     → hansvanleeuwen.com (React + Vite + Supabase)
-│   ├── saas/         → SaaS product (React + Vite + Supabase)
-│   └── thought-canvas/ → Canvas app
+│   └── personal/     → hansvanleeuwen.com (React + Vite + Supabase)
 ├── packages/         → Shared libs (if any)
 ├── supabase/         → Supabase migrations (personal)
-├── supabase-saas/    → Supabase migrations (saas)
 ├── .claude/
 │   ├── agents/       → Custom subagent definitions
 │   ├── skills/       → Reusable skill scripts

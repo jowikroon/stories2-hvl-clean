@@ -53,7 +53,7 @@ const CaseStudyDetail = () => {
     ],
     galleryTitle: "Deliverables",
     ctaTitle: "Wil je hetzelfde voor jouw merk?",
-    ctaText: "Dit project is gebouwd met dezelfde technologie die nu beschikbaar is als SaaS op marketplacegrowth.nl.",
+    ctaText: "Dit project is gebouwd met dezelfde technologie die ook voor jouw merk kan worden ingezet.",
     ctaButton: "Probeer de Content Builder",
   } : {
     breadcrumbWork: "Portfolio",
@@ -80,7 +80,7 @@ const CaseStudyDetail = () => {
     ],
     galleryTitle: "Deliverables",
     ctaTitle: "Want the same for your brand?",
-    ctaText: "This project was built with the same technology now available as SaaS on marketplacegrowth.nl.",
+    ctaText: "This project was built with the same technology that can be applied to your brand.",
     ctaButton: "Try the Content Builder",
   };
 
@@ -259,7 +259,7 @@ const CaseStudyDetail = () => {
           {content.ctaText}
         </p>
         <a
-          href="https://marketplacegrowth.nl"
+          href="/contact"
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"

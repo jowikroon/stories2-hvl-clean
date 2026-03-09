@@ -46,13 +46,13 @@ const INFRA_LAYERS = [
 /* ═══ Roadmap — verified against God Structure v2 doc ═══ */
 
 const ROADMAP: RoadmapItem[] = [
-  { task: "Domains live (hansvanleeuwen.com + marketplacegrowth.nl)", status: "done", priority: "P0", category: "infra" },
+  { task: "Primary domain live (hansvanleeuwen.com)", status: "done", priority: "P0", category: "infra" },
   { task: "Cloudflare Pages deploy pipeline", status: "done", priority: "P0", category: "infra" },
   { task: "Supabase schema — 7 migrations", status: "done", priority: "P0", category: "backend" },
   { task: "Edge Functions deployed", status: "done", priority: "P0", category: "backend" },
   { task: "Auth — email + Google OAuth", status: "done", priority: "P0", category: "auth" },
   { task: "4 VPS monitoring workflows active", status: "done", priority: "P0", category: "infra" },
-  { task: "Separate repos (marketplacegrowth standalone)", status: "done", priority: "P0", category: "infra" },
+  { task: "Repository structure finalized", status: "done", priority: "P0", category: "infra" },
   { task: "Ollama deployed on VPS2", status: "done", priority: "P1", category: "ai" },
   { task: "God Structure dashboard", status: "done", priority: "P1", category: "frontend" },
   { task: "9 infra services registered in Supabase", status: "done", priority: "P1", category: "infra" },
@@ -349,7 +349,7 @@ export default function GodStructure() {
                 <div className="grid grid-cols-3 gap-3">
                   <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4"><p className="text-[10px] uppercase tracking-[0.15em] text-zinc-500 mb-2">Workflows</p><p className="text-xl font-bold font-mono text-amber-400">{WORKFLOWS.length}</p><p className="text-[10px] text-zinc-600 mt-1">registered in frontend</p></div>
                   <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4"><p className="text-[10px] uppercase tracking-[0.15em] text-zinc-500 mb-2">Infra Layers</p><p className="text-xl font-bold font-mono text-purple-400">{INFRA_LAYERS.length}</p><p className="text-[10px] text-zinc-600 mt-1">Edge → Backend → Auto → Compute → AI</p></div>
-                  <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4"><p className="text-[10px] uppercase tracking-[0.15em] text-zinc-500 mb-2">Repositories</p><p className="text-xl font-bold font-mono text-blue-400">2</p><p className="text-[10px] text-zinc-600 mt-1">hans-crafted-stories + marketplacegrowth</p></div>
+                  <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4"><p className="text-[10px] uppercase tracking-[0.15em] text-zinc-500 mb-2">Repositories</p><p className="text-xl font-bold font-mono text-blue-400">1</p><p className="text-[10px] text-zinc-600 mt-1">hans-crafted-stories</p></div>
                 </div>
               </div>
             )}
@@ -363,7 +363,7 @@ export default function GodStructure() {
                   <div className="grid grid-cols-1 gap-2 text-xs text-zinc-400 md:grid-cols-3">
                     <div><span className="text-zinc-200 font-medium">Frontend:</span> Vite, React 18, TS, shadcn/ui, Framer Motion, Tailwind</div>
                     <div><span className="text-zinc-200 font-medium">Backend:</span> Supabase (Postgres, Auth, Edge Fns), n8n</div>
-                    <div><span className="text-zinc-200 font-medium">Deploy:</span> Cloudflare Pages, Vercel (SaaS), GitHub</div>
+                    <div><span className="text-zinc-200 font-medium">Deploy:</span> Cloudflare Pages, GitHub</div>
                     <div><span className="text-zinc-200 font-medium">AI:</span> Claude, Ollama (qwen2.5), AnythingLLM, Qdrant</div>
                     <div><span className="text-zinc-200 font-medium">Infra:</span> 2× Hostinger VPS, Docker, Traefik, Cloudflare DNS</div>
                     <div><span className="text-zinc-200 font-medium">I18n:</span> EN + NL bilingual</div>
@@ -392,7 +392,6 @@ export default function GodStructure() {
                   <div className="space-y-1">
                     {[
                       { n: "Cloudflare Pages", id: "hansvanleeuwen.com", r: "Frontend hosting" },
-                      { n: "Vercel", id: "marketplacegrowth.nl", r: "SaaS frontend" },
                       { n: "GitHub", id: "jowikroon/hans-crafted-stories", r: "Source code" },
                       { n: "Supabase", id: "pesfakewujjwkyybwaom", r: "DB + Auth + Edge Fns" },
                       { n: "VPS1", id: "srv1402218 / 187.124.1.75", r: "n8n + Docker + AI" },

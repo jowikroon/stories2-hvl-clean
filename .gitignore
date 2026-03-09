@@ -23,7 +23,6 @@ lerna-debug.log*
 node_modules
 dist
 dist-ssr
-dist-saas
 *.local
 
 # Cloned repos (use apps/ structure instead)

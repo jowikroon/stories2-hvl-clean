@@ -8,34 +8,10 @@
       "port": 8080
     },
     {
-      "name": "saas-dev",
-      "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev:saas"],
-      "port": 8081
-    },
-    {
-      "name": "thought-canvas-dev",
-      "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev:thought-canvas"],
-      "port": 8082
-    },
-    {
       "name": "personal-preview",
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "preview:personal"],
       "port": 4173
-    },
-    {
-      "name": "saas-preview",
-      "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "preview:saas"],
-      "port": 4174
-    },
-    {
-      "name": "thought-canvas-preview",
-      "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "preview:thought-canvas"],
-      "port": 4175
     }
   ]
 }

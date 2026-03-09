@@ -11,6 +11,7 @@ import { useSEO } from "@/hooks/useSEO";
 import { useLang } from "@/hooks/useLang";
 import { translations } from "@/data/translations";
 import { usePageContent } from "@/hooks/usePageContent";
+import { caseStudies as staticCaseStudies } from "@/data/content";
 
 // Map detailed categories to filter groups
 const categoryGroupMap: Record<string, string> = {
@@ -70,10 +71,32 @@ const Work = () => {
   });
 
   useEffect(() => {
-    getCaseStudies(true).then((s) => {
-      setStudies(s);
-      setLoading(false);
-    });
+    getCaseStudies(true)
+      .then((s) => {
+        setStudies(s);
+        setLoading(false);
+      })
+      .catch(() => {
+        const fallback: CaseStudyRow[] = staticCaseStudies.map((s, i) => ({
+          id: s.id,
+          title: s.title,
+          title_nl: s.titleNl ?? "",
+          category: s.category,
+          description: s.description,
+          description_nl: s.descriptionNl ?? "",
+          content: "",
+          content_nl: "",
+          image: s.image,
+          year: s.year,
+          external_url: s.externalUrl ?? null,
+          published: true,
+          sort_order: i,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+        }));
+        setStudies(fallback);
+        setLoading(false);
+      });
   }, []);
 
   const internalRoutes: Record<string, string> = {
